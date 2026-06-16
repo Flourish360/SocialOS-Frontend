@@ -60,7 +60,7 @@ export default function LoginPage() {
 
         {/* Demo shortcut */}
         <div className="mt-4 p-3 bg-slate-800 rounded-lg border border-slate-700">
-          <p className="text-xs text-slate-400 mb-2">Demo — no backend needed:</p>
+          <p className="text-xs text-slate-400 mb-2">Demo - no backend needed:</p>
           <button
             onClick={() => { setEmail("demo@socialos.app"); setPassword("demo1234"); }}
             className="text-xs text-violet-400 hover:text-violet-300 transition-colors"

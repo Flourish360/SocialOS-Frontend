@@ -121,7 +121,7 @@ export default function DashboardPage() {
           <div className="card lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-sm font-semibold text-white">Engagement — Last 30 Days</h2>
+                <h2 className="text-sm font-semibold text-white">Engagement - Last 30 Days</h2>
                 <p className="text-xs text-slate-400 mt-0.5">Total engagements per platform</p>
               </div>
               <select className="bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-300 px-2 py-1 focus:outline-none">
