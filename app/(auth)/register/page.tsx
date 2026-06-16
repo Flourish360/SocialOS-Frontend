@@ -18,7 +18,7 @@ export default function RegisterPage() {
     try {
       await register(email, password, name);
       toast.success("Account created!");
-      router.push("/");
+      router.push("/dashboard");
     } catch {
       toast.error("Could not create account. Try a different email.");
     }
