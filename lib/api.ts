@@ -1,7 +1,15 @@
 import axios from "axios";
 
-// Defaults to same-origin /api (proxied to FastAPI via next.config.mjs rewrites)
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
+// In dev, defaults to same-origin /api (proxied to FastAPI via next.config.mjs rewrites).
+// In production, set NEXT_PUBLIC_API_URL to the backend origin (e.g. https://xxx.railway.app).
+// We always route through the backend's "/api" prefix, normalizing whichever form is given.
+function resolveApiBase(): string {
+  let raw = (process.env.NEXT_PUBLIC_API_URL || "").trim().replace(/\/+$/, "");
+  if (!raw) return "/api";
+  if (raw.endsWith("/api")) return raw;
+  return `${raw}/api`;
+}
+const API_BASE = resolveApiBase();
 
 const api = axios.create({ baseURL: API_BASE });
 
@@ -23,6 +31,19 @@ api.interceptors.response.use(
     return Promise.reject(err);
   },
 );
+
+// Extracts a human-readable message from an axios error, including network failures.
+export function getErrorMessage(err: unknown, fallback: string): string {
+  if (axios.isAxiosError(err)) {
+    if (!err.response) {
+      return "Cannot reach the server. Check your connection or the API URL.";
+    }
+    const detail = err.response.data?.detail;
+    if (typeof detail === "string") return detail;
+    if (Array.isArray(detail) && detail[0]?.msg) return detail[0].msg;
+  }
+  return fallback;
+}
 
 export const authApi = {
   login: (email: string, password: string) =>
