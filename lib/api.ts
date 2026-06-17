@@ -1,15 +1,6 @@
 import axios from "axios";
 
-// In dev, defaults to same-origin /api (proxied to FastAPI via next.config.mjs rewrites).
-// In production, set NEXT_PUBLIC_API_URL to the backend origin (e.g. https://xxx.railway.app).
-// We always route through the backend's "/api" prefix, normalizing whichever form is given.
-function resolveApiBase(): string {
-  let raw = (process.env.NEXT_PUBLIC_API_URL || "").trim().replace(/\/+$/, "");
-  if (!raw) return "/api";
-  if (raw.endsWith("/api")) return raw;
-  return `${raw}/api`;
-}
-const API_BASE = resolveApiBase();
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 const api = axios.create({ baseURL: API_BASE });
 
